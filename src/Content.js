@@ -1,16 +1,24 @@
 import React from 'react';
+import {app} from './tests'
 
 class Content extends React.Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
-            images: ['https://vacationidea.com/pix/img25Hy8R/articles/most-beautiful-places-in-the-world_t5.jpg',
-                'https://vacationidea.com/pix/img25Hy8R/articles/most-beautiful-places-in-the-world_t5.jpg',
-                'https://vacationidea.com/pix/img25Hy8R/articles/most-beautiful-places-in-the-world_t5.jpg',
-                'https://vacationidea.com/pix/img25Hy8R/articles/most-beautiful-places-in-the-world_t5.jpg']
+            images: []
         };
+        var temp_imgs = [];
+        app.database().ref().on('child_added', (snap)=>{
+            var imgs = snap.val();
+            console.log(imgs);
+            for(var key in imgs){
+                temp_imgs.push(imgs[key]);
+            }
+            this.setState({images: temp_imgs});
+        });
+
+        
     }
 
     render() {
